@@ -27,7 +27,7 @@ class AuthServiceImpl(
 
     private final val client_id:String = "014fd6985cda29d0e5fe4263fc3c366b"
     private final val secret_key:String = "COBOCOBOCOBOCOBOCOBOCOBOCOBOCOBOCOBO"
-    private final val redirect_uri = "https://seoul-aiot-jiozx.run.goorm.site/api/auth/login"
+    private final val redirect_uri = "https://seoul-aiot-jiozx.run.goorm.site/login.html"
 
     override fun login(code: String): ResponseEntity<LoginRes> {
 
