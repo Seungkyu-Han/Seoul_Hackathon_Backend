@@ -32,8 +32,8 @@ class AuthServiceImpl(
 
         val userId = getKakaoUserIdByKakaoAccessToken(getKakaoAccessToken(code))
 
-        val accessToken = jwtTokenProvider.createAccessToken(userId.toInt(), secret_key)
-        val refreshToken = jwtTokenProvider.createRefreshToken(userId.toInt(), secret_key)
+        val accessToken = jwtTokenProvider.createAccessToken(userId, secret_key)
+        val refreshToken = jwtTokenProvider.createRefreshToken(userId, secret_key)
 
         return ResponseEntity(LoginRes(accessToken = accessToken, refreshToken = refreshToken), HttpStatus.OK)
     }
@@ -67,10 +67,10 @@ class AuthServiceImpl(
         return accessToken
     }
 
-    private fun getKakaoUserIdByKakaoAccessToken(token: String): Long {
+    private fun getKakaoUserIdByKakaoAccessToken(token: String): Int {
         val element = getJsonElementByAccessToken(token)
 
-        val id = element?.asJsonObject?.get("id")?.asLong ?: 0
+        val id = element?.asJsonObject?.get("id")?.asInt ?: 0
 
         println("** LOGIN: 로그인 시도하는 유저의 KAKAO ID :$id")
 

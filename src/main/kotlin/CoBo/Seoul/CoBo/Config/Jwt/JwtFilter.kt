@@ -39,6 +39,8 @@ class JwtFilter(
 
         val userId = jwtTokenProvider.getUserId(token, secret_key)
 
+        println(userId)
+
         val usernamePasswordAuthenticationFilter = UsernamePasswordAuthenticationToken(userId, null, listOf(SimpleGrantedAuthority("USER")))
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationFilter
         filterChain.doFilter(request, response)

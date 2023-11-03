@@ -30,7 +30,7 @@ class ReverseRunController (
         notes = "주간 과속의 비율을 구해줍니다."
     )
     @ApiResponse(code = 200, message = "나머지는 모두 실패입니다.")
-    fun timeSpeedRate(): ResponseEntity<MutableMap<Int, Int>> {
+    fun timeSpeedRate(): ResponseEntity<Map<Int, Int>> {
         return reverseRunService.timeReverseRunCount()
     }
 

@@ -12,18 +12,18 @@ class JwtTokenProvider {
     private final val accessTokenValidTime = Duration.ofHours(2).toMillis()
     private final val refreshTokenValidTime = Duration.ofDays(7).toMillis()
 
-    fun getUserId(token: String, secretKey: String):Int{
+    fun getUserId(token: String, secretKey: String): Integer? {
         return Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token)
-            .body.get("userId", Int::class.java)
+            .body.get("userId", java.lang.Integer::class.java)
     }
 
     fun isAccessToken(token :String, secretKey: String):Boolean{
         return Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token)
-            .header.get("type").toString().equals("access")
+            .header.get("type").toString() == "access"
     }
 
     fun createAccessToken(userId: Int, secretKey: String):String{

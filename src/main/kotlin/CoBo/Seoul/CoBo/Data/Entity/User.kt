@@ -10,7 +10,7 @@ import javax.persistence.*
 @NoArgsConstructor
 data class User(
     @Id
-    var id:Long,
+    var id:Int,
 
     @Column(length = 30)
     var email: String,
