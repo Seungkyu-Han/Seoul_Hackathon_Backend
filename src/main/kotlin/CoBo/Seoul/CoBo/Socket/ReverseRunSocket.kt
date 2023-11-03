@@ -9,6 +9,7 @@ import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.RequiredArgsConstructor
 import org.springframework.context.event.EventListener
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -29,14 +30,13 @@ class ReverseRunSocket(
     override fun afterConnectionEstablished(session: WebSocketSession) {
         webSocketSessionList.add(session)
         val reverseRunList = ArrayList<ReverseRunDto>()
-        for(speed in reverseRunRepository.findAll())
+        for(speed in reverseRunRepository.findAll(PageRequest.of(0, 10)))
             reverseRunList.add(
                 ReverseRunDto(
                 created_at = speed.created_at,
                 region = speed.region,
                 direction = speed.direction
-            )
-            )
+            ))
         session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(reverseRunList)))
     }
 
