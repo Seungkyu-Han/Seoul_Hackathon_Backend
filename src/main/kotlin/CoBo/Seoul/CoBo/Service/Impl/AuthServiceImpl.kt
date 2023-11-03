@@ -1,6 +1,7 @@
 package CoBo.Seoul.CoBo.Service.Impl
 
 import CoBo.Seoul.CoBo.Config.Jwt.JwtTokenProvider
+import CoBo.Seoul.CoBo.Data.Dto.Req.AuthPatchLoginReq
 import CoBo.Seoul.CoBo.Data.Dto.Res.LoginRes
 import CoBo.Seoul.CoBo.Repository.UserRepository
 import CoBo.Seoul.CoBo.Service.AuthService
@@ -9,6 +10,7 @@ import com.google.gson.JsonNull
 import com.google.gson.JsonParser
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import java.io.BufferedReader
 import java.io.BufferedWriter
@@ -25,17 +27,34 @@ class AuthServiceImpl(
 
     private final val client_id:String = "014fd6985cda29d0e5fe4263fc3c366b"
     private final val secret_key:String = "COBOCOBOCOBOCOBOCOBOCOBOCOBOCOBOCOBO"
-    private final val redirect_uri = "http://localhost:8080/api/auth/login"
+    private final val redirect_uri = "https://seoul-aiot-jiozx.run.goorm.site/api/auth/login"
 
     override fun login(code: String): ResponseEntity<LoginRes> {
-
 
         val userId = getKakaoUserIdByKakaoAccessToken(getKakaoAccessToken(code))
 
         val accessToken = jwtTokenProvider.createAccessToken(userId, secret_key)
         val refreshToken = jwtTokenProvider.createRefreshToken(userId, secret_key)
 
+        val user = userRepository.findById(userId).get()
+        user.refreshToken = refreshToken
+        userRepository.save(user)
+
         return ResponseEntity(LoginRes(accessToken = accessToken, refreshToken = refreshToken), HttpStatus.OK)
+    }
+
+    override fun login(authPatchLoginReq: AuthPatchLoginReq): ResponseEntity<LoginRes> {
+        val userId = userRepository.findByRefreshToken(authPatchLoginReq.refreshToken).id
+
+        val accessToken = jwtTokenProvider.createAccessToken(userId, secret_key)
+
+        return ResponseEntity(LoginRes(accessToken = accessToken, refreshToken = authPatchLoginReq.refreshToken), HttpStatus.OK)
+    }
+
+    override fun check(authentication: Authentication): ResponseEntity<HttpStatus> {
+        authentication.name
+
+        return ResponseEntity(HttpStatus.OK)
     }
 
     private fun getKakaoAccessToken(code: String): String {

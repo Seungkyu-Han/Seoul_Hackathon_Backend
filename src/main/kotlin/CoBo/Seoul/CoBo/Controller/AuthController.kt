@@ -1,5 +1,6 @@
 package CoBo.Seoul.CoBo.Controller
 
+import CoBo.Seoul.CoBo.Data.Dto.Req.AuthPatchLoginReq
 import CoBo.Seoul.CoBo.Data.Dto.Res.LoginRes
 import CoBo.Seoul.CoBo.Service.AuthService
 import io.swagger.annotations.Api
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
+import springfox.documentation.annotations.ApiIgnore
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,18 +25,18 @@ class AuthController(var authService: AuthService){
         notes = "토큰을 이용해 로그인을 확인합니다",
         response = HttpStatus::class
     )
-    fun check(@Parameter(hidden = true) authentication:Authentication){
-        TODO()
+    fun check(@ApiIgnore authentication:Authentication): ResponseEntity<HttpStatus>{
+        return authService.check(authentication)
     }
 
     @PatchMapping("/login")
     @ApiOperation(
         value = "로그인 API",
-        notes = "RefreshToken을 이용하여 토큰들을 반환",
-        response = HttpStatus::class
+        notes = "RefreshToken을 이용하여 토큰들을 반환"
     )
-    fun login(@Parameter(hidden = true) authentication:Authentication){
-        TODO()
+    fun login(@RequestBody authPatchLoginReq: AuthPatchLoginReq):ResponseEntity<LoginRes>{
+        return authService.login(authPatchLoginReq)
+
     }
 
     @GetMapping("/login")

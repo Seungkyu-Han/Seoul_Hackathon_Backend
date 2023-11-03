@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository:JpaRepository<User, Int> {
+
+    fun findByRefreshToken(token: String): User
 }
