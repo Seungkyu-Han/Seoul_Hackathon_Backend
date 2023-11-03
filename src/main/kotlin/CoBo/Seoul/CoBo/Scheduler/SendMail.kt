@@ -1,6 +1,8 @@
 package CoBo.Seoul.CoBo.Scheduler
 
 import CoBo.Seoul.CoBo.Repository.UserRepository
+import CoBo.Seoul.CoBo.Service.ReverseRunService
+import CoBo.Seoul.CoBo.Service.SpeedService
 import org.springframework.core.io.ClassPathResource
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -12,12 +14,20 @@ import javax.mail.MessagingException
 @Component
 class SendMail(
     val userRepository: UserRepository,
-    val javaMailSender: JavaMailSender){
+    val javaMailSender: JavaMailSender,
+    val reverseRunService: ReverseRunService,
+    val speedService: SpeedService
+    ){
 
     @Scheduled(cron = "0 * * * * *")
     fun sendMail(){
         println("메일 전송 시작")
-        val userList = userRepository.findAll()
+        val userList = userRepository.findAllByAlarmIsTrue()
+
+        val reverseTime = reverseRunService.timeReverseRunCount().body?.keys?.toList()
+        val reverseRegion = reverseRunService.regionReverseRunCount().body?.keys?.toList()
+        val speedTime = speedService.timeSpeedRate().body?.keys?.toList()
+        val speedRegion = speedService.regionSpeedRate().body?.keys?.toList()
 
         for(user in userList){
             val mimeMessage = javaMailSender.createMimeMessage()
@@ -156,9 +166,9 @@ class SendMail(
                                             <div class="content-title">역주행은 이 시간에 가장 많이 발생했어요!</div>
                                             <div class="content-data">
                                                 <ul class="ranking" id="ranking-time">
-                                                    <li>01<span>[16:00-20:00]</span></li>
-                                                    <li>02<span>[6:00-9:30]</span></li>
-                                                    <li>03<span>[11:30-12:30]</span></li>
+                                                    <li>01<span>${reverseTime?.get(0) ?: 0}시 - ${reverseTime?.get(0)?.plus(1) ?: 0}시</span></li>
+                                                    <li>02<span>${reverseTime?.get(1) ?: 0}시 - ${reverseTime?.get(1)?.plus(1) ?: 0}시</span></li>
+                                                    <li>03<span>${reverseTime?.get(2) ?: 0}시 - ${reverseTime?.get(2)?.plus(1) ?: 0}시</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -166,9 +176,9 @@ class SendMail(
                                             <div class="content-title">역주행은 이곳에서 가장 많이 발생했어요!</div>
                                             <div class="content-data">
                                                 <ul class="ranking" id="ranking-time">
-                                                    <li>01<span>[반포 한강공원]</span></li>
-                                                    <li>02<span>[잠실 매점 2호점 앞]</span></li>
-                                                    <li>03<span>[잠원 화장실03 앞]</span></li>
+                                                    <li>01<span>${reverseRegion?.get(0) ?: "기록 없음"}</span></li>
+                                                    <li>02<span>${reverseRegion?.get(1) ?: "기록 없음"}</span></li>
+                                                    <li>03<span>${reverseRegion?.get(2) ?: "기록 없음"}</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -178,9 +188,9 @@ class SendMail(
                                             <div class="content-title">과속은 이 시간에 가장 많이 발생했어요!</div>
                                             <div class="content-data">
                                                 <ul class="ranking" id="ranking-time">
-                                                    <li>01<span>[16:00-20:00]</span></li>
-                                                    <li>02<span>[6:00-9:30]</span></li>
-                                                    <li>03<span>[11:30-12:30]</span></li>
+                                                    <li>01<span>${speedTime?.get(0) ?: 0}시 - ${speedTime?.get(0)?.plus(1) ?: 0}시</span></li>
+                                                    <li>03<span>${speedTime?.get(1) ?: 0}시 - ${speedTime?.get(1)?.plus(1) ?: 0}시</span></li>
+                                                    <li>02<span>${speedTime?.get(2) ?: 0}시 - ${speedTime?.get(2)?.plus(1) ?: 0}시</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -188,9 +198,9 @@ class SendMail(
                                             <div class="content-title">과속은 이곳에서 가장 많이 발생했어요!</div>
                                             <div class="content-data">
                                                 <ul class="ranking" id="ranking-time">
-                                                    <li>01<span>[반포 한강공원]</span></li>
-                                                    <li>02<span>[잠실 매점 2호점 앞]</span></li>
-                                                    <li>03<span>[잠원 화장실03 앞]</span></li>
+                                                    <li>01<span>${speedRegion?.get(0) ?: "기록 없음"}</span></li>
+                                                    <li>02<span>${speedRegion?.get(1) ?: "기록 없음"}</span></li>
+                                                    <li>03<span>${speedRegion?.get(2) ?: "기록 없음"}</span></li>
                                                 </ul>
                                             </div>
                                         </div>
