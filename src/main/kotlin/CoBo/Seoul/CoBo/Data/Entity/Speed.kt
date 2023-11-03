@@ -1,5 +1,6 @@
 package CoBo.Seoul.CoBo.Data.Entity
 
+import CoBo.Seoul.CoBo.Data.RegionEnum
 import lombok.Data
 import lombok.NoArgsConstructor
 import java.time.LocalDateTime
@@ -18,9 +19,10 @@ data class Speed(
 
     var created_at:LocalDateTime,
 
-    var region:Float,
+    @Enumerated(EnumType.STRING)
+    var region:RegionEnum,
 
-    var direction:Short,
+    var direction:Int,
 
     @Column(length = 3)
     var day_of_the_week_tag:String,

@@ -19,6 +19,7 @@ data class ReverseRun(
 
     var created_at:LocalDateTime,
 
+    @Enumerated(EnumType.STRING)
     var region: RegionEnum,
 
     var direction:Int,
