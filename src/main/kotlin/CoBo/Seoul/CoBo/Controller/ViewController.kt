@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping
 @Controller
 class ViewController {
 
+
+    @GetMapping("/")
+    fun main():String{
+        return "/Reverse"
+    }
+
     @GetMapping("/Reverse")
     fun reverse():String{
         return "/Reverse"

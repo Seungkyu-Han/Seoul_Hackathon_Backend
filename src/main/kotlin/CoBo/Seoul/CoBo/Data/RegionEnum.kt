@@ -5,6 +5,6 @@ enum class RegionEnum {
     INCHEON,
     BANPO,
     HONGDAE,
-    Mapo,
+    MAPO,
 
 }
