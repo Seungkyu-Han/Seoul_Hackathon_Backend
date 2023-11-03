@@ -6,6 +6,7 @@ import CoBo.Seoul.CoBo.Data.RegionEnum
 import CoBo.Seoul.CoBo.Repository.ReverseRunRepository
 import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import CoBo.Seoul.CoBo.Service.ArduinoService
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -15,7 +16,8 @@ import java.time.LocalDateTime
 @Service
 class ArduinoServiceImpl(
     val reverseRunRepository: ReverseRunRepository,
-    val speedRepository: SpeedRepository
+    val speedRepository: SpeedRepository,
+    val applicationEventPublisher: ApplicationEventPublisher
 ):ArduinoService{
 
     val overSpeed = 35.0
@@ -24,14 +26,18 @@ class ArduinoServiceImpl(
 
         val currentDateTime = LocalDateTime.now()
 
-        reverseRunRepository.save(ReverseRun(
+        val reverseRun = ReverseRun(
             id = null,
             created_at = currentDateTime,
             region=region,
             direction=direction,
             day_of_the_week_tag = getDayOfTheWeek(),
             time_tag = currentDateTime.toLocalTime().hour.toShort()
-        ))
+        )
+
+        reverseRunRepository.save(reverseRun)
+
+        applicationEventPublisher.publishEvent(reverseRun)
 
         return ResponseEntity(HttpStatus.OK)
     }
@@ -39,7 +45,7 @@ class ArduinoServiceImpl(
     override fun speed(speed: Float, region: RegionEnum, direction: Int): ResponseEntity<HttpStatus> {
         val currentDateTime = LocalDateTime.now()
 
-        speedRepository.save(Speed(
+        val speedEntity = Speed(
             id = null,
             speed = speed,
             created_at = LocalDateTime.now(),
@@ -48,7 +54,11 @@ class ArduinoServiceImpl(
             day_of_the_week_tag = getDayOfTheWeek(),
             time_tag = currentDateTime.toLocalTime().hour.toShort(),
             overSpeed = speed >= overSpeed
-        ))
+        )
+
+        speedRepository.save(speedEntity)
+
+        applicationEventPublisher.publishEvent(speedEntity)
 
         return ResponseEntity(HttpStatus.OK)
 
