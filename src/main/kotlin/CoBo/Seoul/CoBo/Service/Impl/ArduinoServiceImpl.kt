@@ -3,6 +3,7 @@ package CoBo.Seoul.CoBo.Service.Impl
 import CoBo.Seoul.CoBo.Data.Entity.ReverseRun
 import CoBo.Seoul.CoBo.Data.Entity.Speed
 import CoBo.Seoul.CoBo.Data.RegionEnum
+import CoBo.Seoul.CoBo.Data.WeekEnum
 import CoBo.Seoul.CoBo.Repository.ReverseRunRepository
 import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import CoBo.Seoul.CoBo.Service.ArduinoService
@@ -64,16 +65,16 @@ class ArduinoServiceImpl(
 
     }
 
-    private fun getDayOfTheWeek():String{
+    private fun getDayOfTheWeek():WeekEnum{
         return when(LocalDateTime.now().dayOfWeek){
-            DayOfWeek.MONDAY -> "월"
-            DayOfWeek.TUESDAY -> "화"
-            DayOfWeek.WEDNESDAY -> "수"
-            DayOfWeek.THURSDAY -> "목"
-            DayOfWeek.FRIDAY -> "금"
-            DayOfWeek.SATURDAY -> "토"
-            DayOfWeek.SUNDAY -> "일"
-            else -> "에러"
+            DayOfWeek.MONDAY -> WeekEnum.월
+            DayOfWeek.TUESDAY -> WeekEnum.화
+            DayOfWeek.WEDNESDAY -> WeekEnum.수
+            DayOfWeek.THURSDAY -> WeekEnum.목
+            DayOfWeek.FRIDAY -> WeekEnum.금
+            DayOfWeek.SATURDAY -> WeekEnum.토
+            DayOfWeek.SUNDAY -> WeekEnum.일
+            else -> WeekEnum.에러
         }
     }
 

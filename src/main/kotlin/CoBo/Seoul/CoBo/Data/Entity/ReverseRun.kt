@@ -1,6 +1,7 @@
 package CoBo.Seoul.CoBo.Data.Entity
 
 import CoBo.Seoul.CoBo.Data.RegionEnum
+import CoBo.Seoul.CoBo.Data.WeekEnum
 import lombok.Builder
 import lombok.Data
 import lombok.NoArgsConstructor
@@ -25,7 +26,8 @@ data class ReverseRun(
     var direction:Int,
 
     @Column(length = 3)
-    var day_of_the_week_tag:String,
+    @Enumerated(EnumType.STRING)
+    var day_of_the_week_tag:WeekEnum,
 
     var time_tag: Short
 ) {
