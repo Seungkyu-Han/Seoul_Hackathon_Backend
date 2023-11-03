@@ -6,5 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 interface SpeedService {
-    fun weekSpeedRate(): ResponseEntity<HttpStatus>
+    fun weekSpeedRate(): ResponseEntity<MutableMap<String, Double>>
+
+    fun timeSpeedRate(): ResponseEntity<MutableMap<Int, Double>>
 }

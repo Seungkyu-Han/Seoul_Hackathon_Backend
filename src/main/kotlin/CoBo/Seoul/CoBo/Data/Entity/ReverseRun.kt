@@ -27,7 +27,7 @@ data class ReverseRun(
 
     @Column(length = 3)
     @Enumerated(EnumType.STRING)
-    var day_of_the_week_tag:WeekEnum,
+    var day_of_the_week_tag:WeekEnum?,
 
     var time_tag: Short
 ) {

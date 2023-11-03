@@ -7,6 +7,5 @@ enum class WeekEnum {
     목,
     금,
     토,
-    일,
-    에러
+    일
 }

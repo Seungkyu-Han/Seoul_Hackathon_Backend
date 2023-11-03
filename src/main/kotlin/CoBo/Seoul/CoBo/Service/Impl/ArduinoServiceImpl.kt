@@ -65,7 +65,7 @@ class ArduinoServiceImpl(
 
     }
 
-    private fun getDayOfTheWeek():WeekEnum{
+    private fun getDayOfTheWeek():WeekEnum?{
         return when(LocalDateTime.now().dayOfWeek){
             DayOfWeek.MONDAY -> WeekEnum.월
             DayOfWeek.TUESDAY -> WeekEnum.화
@@ -74,7 +74,7 @@ class ArduinoServiceImpl(
             DayOfWeek.FRIDAY -> WeekEnum.금
             DayOfWeek.SATURDAY -> WeekEnum.토
             DayOfWeek.SUNDAY -> WeekEnum.일
-            else -> WeekEnum.에러
+            else -> null
         }
     }
 
