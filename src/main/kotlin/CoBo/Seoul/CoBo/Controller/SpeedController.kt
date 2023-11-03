@@ -26,7 +26,7 @@ class SpeedController (
         return speedService.weekSpeedRate()
     }
 
-    @GetMapping("time")
+    @GetMapping("/time")
     @ApiOperation(
         value = "최근 1주간 시간별로 과속의 비율을 구해줍니다.",
         notes = "주간 과속의 비율을 구해줍니다."

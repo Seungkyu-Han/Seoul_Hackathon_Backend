@@ -40,13 +40,8 @@ class SpeedServiceImpl(var speedRepository: SpeedRepository): SpeedService {
                 timeSpeedMap[time] =
                     speedRepository.countOverSpeedTimeTag(week, time.toShort()) /
                             count.toDouble()
-                println(time)
-                println(count)
-                println(speedRepository.countOverSpeedTimeTag(week, time.toShort()))
-                println()
             }
         }
-        println("EEEEEEE")
         return ResponseEntity(timeSpeedMap, HttpStatus.OK)
     }
 }

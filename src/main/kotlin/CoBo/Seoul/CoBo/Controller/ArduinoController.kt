@@ -51,10 +51,8 @@ class ArduinoController(
     fun speed(
         @RequestParam speed:Float,
         @RequestParam region: RegionEnum,
-        @RequestParam direction: Int,
-        request: HttpServletRequest
+        @RequestParam direction: Int
     ):ResponseEntity<HttpStatus>{
-        println(request.requestURL.toString())
         return arduinoService.speed(speed, region, direction)
     }
 }
