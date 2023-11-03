@@ -27,7 +27,7 @@ class SwaggerConfig {
             .securitySchemes(listOf(apiKey()))
             .apiInfo(apiInfo())
             .select()
-            .apis(RequestHandlerSelectors.basePackage("cobo.blog"))
+            .apis(RequestHandlerSelectors.basePackage("CoBo.Seoul.CoBo"))
             .paths(PathSelectors.any())
             .build()
     }
