@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api/arduino")
@@ -50,8 +51,10 @@ class ArduinoController(
     fun speed(
         @RequestParam speed:Float,
         @RequestParam region: RegionEnum,
-        @RequestParam direction: Int
+        @RequestParam direction: Int,
+        request: HttpServletRequest
     ):ResponseEntity<HttpStatus>{
+        println(request.requestURL.toString())
         return arduinoService.speed(speed, region, direction)
     }
 }
