@@ -21,7 +21,6 @@ class SendMail(
 
     @Scheduled(cron = "0 * * * * *")
     fun sendMail(){
-        println("메일 전송 시작")
         val userList = userRepository.findAllByAlarmIsTrue()
 
         val reverseTime = reverseRunService.timeReverseRunCount().body?.keys?.toList()
