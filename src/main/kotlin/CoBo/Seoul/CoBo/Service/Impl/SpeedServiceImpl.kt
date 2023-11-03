@@ -1,5 +1,6 @@
 package CoBo.Seoul.CoBo.Service.Impl
 
+import CoBo.Seoul.CoBo.Data.RegionEnum
 import CoBo.Seoul.CoBo.Data.WeekEnum
 import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import CoBo.Seoul.CoBo.Service.SpeedService
@@ -50,6 +51,29 @@ class SpeedServiceImpl(var speedRepository: SpeedRepository): SpeedService {
             .take(3) // 상위 3개 값만 선택
 
         // 정렬된 상위 3개 값을 새로운 맵으로 만듦
+        val top3TimeSpeedMap = sortedMap.associate { it.key to it.value }
+
+        return ResponseEntity(top3TimeSpeedMap, HttpStatus.OK)
+    }
+
+    override fun regionSpeedRate(): ResponseEntity<Map<String, Double>> {
+        val week = LocalDateTime.now().minus(1, ChronoUnit.WEEKS)
+        val regionSpeedMap = mutableMapOf<String, Double>()
+        for(regionEnum in RegionEnum.values()){
+            val count = speedRepository.countSpeedRegion(week, regionEnum) ?: 0
+            val overCount = speedRepository.countOverSpeedWeekRegion(week, regionEnum) ?: 0
+            if(count == 0){
+                regionSpeedMap[regionEnum.name] = 0.0
+            }else{
+                regionSpeedMap[regionEnum.name] =
+                    overCount.toDouble() / count
+            }
+        }
+
+        val sortedMap = regionSpeedMap.entries
+            .sortedByDescending { it.value }
+            .take(3)
+
         val top3TimeSpeedMap = sortedMap.associate { it.key to it.value }
 
         return ResponseEntity(top3TimeSpeedMap, HttpStatus.OK)

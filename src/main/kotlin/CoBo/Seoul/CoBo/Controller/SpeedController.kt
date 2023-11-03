@@ -36,4 +36,14 @@ class SpeedController (
         return speedService.timeSpeedRate()
     }
 
+    @GetMapping("/region")
+    @ApiOperation(
+        value = "최근 1주간 가장 많은 과속이 발생한 지역을 구해줍니다.",
+        notes = "주간 위치별 과속의 비율을 구해줍니다."
+    )
+    @ApiResponse(code = 200, message = "나머지는 모두 실패입니다.")
+    fun regionSpeedRate():ResponseEntity<Map<String, Double>>{
+        return speedService.regionSpeedRate()
+    }
+
 }

@@ -9,4 +9,5 @@ interface SpeedService {
     fun weekSpeedRate(): ResponseEntity<MutableMap<String, Double>>
 
     fun timeSpeedRate(): ResponseEntity<Map<Int, Double>>
+    fun regionSpeedRate(): ResponseEntity<Map<String, Double>>
 }

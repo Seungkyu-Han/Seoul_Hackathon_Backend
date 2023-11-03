@@ -7,4 +7,5 @@ import org.springframework.stereotype.Service
 interface ReverseRunService {
     fun weekReverseRunCount(): ResponseEntity<MutableMap<String, Int>>
     fun timeReverseRunCount(): ResponseEntity<Map<Int, Int>>
+    fun regionReverseRunCount(): ResponseEntity<Map<String, Int>>
 }

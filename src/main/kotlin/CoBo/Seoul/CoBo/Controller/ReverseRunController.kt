@@ -27,11 +27,21 @@ class ReverseRunController (
     @GetMapping("/time")
     @ApiOperation(
         value = "최근 1주간 시간별로 과속의 비율을 구해줍니다.",
-        notes = "주간 과속의 비율을 구해줍니다."
+        notes = "주간 역주행의 비율을 구해줍니다."
     )
     @ApiResponse(code = 200, message = "나머지는 모두 실패입니다.")
     fun timeSpeedRate(): ResponseEntity<Map<Int, Int>> {
         return reverseRunService.timeReverseRunCount()
+    }
+
+    @GetMapping("/region")
+    @ApiOperation(
+        value = "최근 1주간 가장 많은 역주행이 발생한 지역을 구해줍니다.",
+        notes = "주간 위치별 역주행의 비율을 구해줍니다."
+    )
+    @ApiResponse(code = 200, message = "나머지는 모두 실패입니다.")
+    fun regionSpeedRate():ResponseEntity<Map<String, Int>>{
+        return reverseRunService.regionReverseRunCount()
     }
 
 }

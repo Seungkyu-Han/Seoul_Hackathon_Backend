@@ -1,6 +1,7 @@
 package CoBo.Seoul.CoBo.Repository
 
 import CoBo.Seoul.CoBo.Data.Entity.Speed
+import CoBo.Seoul.CoBo.Data.RegionEnum
 import CoBo.Seoul.CoBo.Data.WeekEnum
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.jpa.repository.JpaRepository
@@ -30,4 +31,16 @@ interface SpeedRepository: JpaRepository<Speed, Long> {
         "WHERE s.created_at >= :week AND s.time_tag = :time AND s.overSpeed = true"
     )
     fun countOverSpeedTimeTag(week: LocalDateTime, time: Short):Int
+
+    @Query(
+        "SELECT COUNT(s) FROM Speed s " +
+                "WHERE s.created_at >= :week AND s.region = :regionEnum " +
+                "GROUP BY s.region"
+    )
+    fun countSpeedRegion(week: LocalDateTime?, regionEnum: RegionEnum): Int?
+
+    @Query("SELECT COUNT(s) FROM Speed s " +
+            "WHERE s.created_at >= :week AND s.region = :regionEnum AND s.overSpeed = true " +
+            "GROUP BY s.region")
+    fun countOverSpeedWeekRegion(week: LocalDateTime?, regionEnum: RegionEnum):Int?
 }

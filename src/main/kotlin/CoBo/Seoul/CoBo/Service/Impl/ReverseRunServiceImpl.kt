@@ -1,5 +1,6 @@
 package CoBo.Seoul.CoBo.Service.Impl
 
+import CoBo.Seoul.CoBo.Data.RegionEnum
 import CoBo.Seoul.CoBo.Data.WeekEnum
 import CoBo.Seoul.CoBo.Repository.ReverseRunRepository
 import CoBo.Seoul.CoBo.Service.ReverseRunService
@@ -39,4 +40,18 @@ class ReverseRunServiceImpl(var reverseRunRepository: ReverseRunRepository):Reve
         return ResponseEntity(top3TimeReverseRunMap, HttpStatus.OK)
     }
 
+    override fun regionReverseRunCount(): ResponseEntity<Map<String, Int>> {
+        val week = LocalDateTime.now().minus(1, ChronoUnit.WEEKS)
+        val regionReverseRunMap = mutableMapOf<String, Int>()
+        for(regionEnum in RegionEnum.values())
+            regionReverseRunMap[regionEnum.name] = reverseRunRepository.countReverseRunRegion(week, regionEnum) ?: 0
+
+        val sortedMap = regionReverseRunMap.entries
+            .sortedByDescending { it.value }
+            .take(3)
+
+        val top3TimeReverseRunMap = sortedMap.associate { it.key to it.value }
+
+        return ResponseEntity(top3TimeReverseRunMap, HttpStatus.OK)
+    }
 }
