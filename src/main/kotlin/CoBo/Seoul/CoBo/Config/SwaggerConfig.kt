@@ -1,4 +1,4 @@
-package CoBo.Seoul.Config
+package CoBo.Seoul.CoBo.Config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

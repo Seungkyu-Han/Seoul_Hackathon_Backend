@@ -1,4 +1,4 @@
-package CoBo.Seoul.Data
+package CoBo.Seoul.CoBo.Data
 
 enum class RegionEnum {
 

@@ -1,6 +1,6 @@
-package CoBo.Seoul.Data.Entity
+package CoBo.Seoul.CoBo.Data.Entity
 
-import CoBo.Seoul.Data.RegionEnum
+import CoBo.Seoul.CoBo.Data.RegionEnum
 import lombok.Data
 import lombok.NoArgsConstructor
 import java.time.LocalDateTime
@@ -17,7 +17,7 @@ class ReverseRun(
 
     var created_at:LocalDateTime,
 
-    var region:RegionEnum,
+    var region: RegionEnum,
 
     var direction:Int,
 

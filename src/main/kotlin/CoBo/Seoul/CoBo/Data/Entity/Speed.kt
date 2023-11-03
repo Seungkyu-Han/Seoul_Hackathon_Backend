@@ -1,4 +1,4 @@
-package CoBo.Seoul.Data.Entity
+package CoBo.Seoul.CoBo.Data.Entity
 
 import lombok.Data
 import lombok.NoArgsConstructor

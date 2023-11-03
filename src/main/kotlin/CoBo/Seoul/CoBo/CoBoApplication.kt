@@ -1,4 +1,4 @@
-package CoBo.Seoul
+package CoBo.Seoul.CoBo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
