@@ -29,15 +29,12 @@ class ReverseRunSocket(
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
         webSocketSessionList.add(session)
-        val reverseRunList = ArrayList<ReverseRunDto>()
         for(speed in reverseRunRepository.findAll(PageRequest.of(0, 10)))
-            reverseRunList.add(
-                ReverseRunDto(
+            session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(ReverseRunDto(
                 created_at = speed.created_at,
                 region = speed.region,
                 direction = speed.direction
-            ))
-        session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(reverseRunList)))
+            ))))
     }
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
