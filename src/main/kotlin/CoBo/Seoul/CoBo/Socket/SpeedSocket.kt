@@ -6,6 +6,7 @@ import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.RequiredArgsConstructor
 import org.springframework.context.event.EventListener
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -26,7 +27,7 @@ class SpeedSocket(
     override fun afterConnectionEstablished(session: WebSocketSession) {
         webSocketSessionList.add(session)
         val speedList = ArrayList<SpeedDto>()
-        for(speed in speedRepository.findAll())
+        for(speed in speedRepository.getAllByOverSpeedIsTrue(PageRequest.of(0, 10)))
             speedList.add(SpeedDto(
                 speed = speed.speed,
                 created_at = speed.created_at,
