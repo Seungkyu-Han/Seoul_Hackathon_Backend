@@ -1,4 +1,4 @@
-package CoBo.Seoul.CoBo.Data.Dto
+package CoBo.Seoul.CoBo.Data.Dto.Res
 
 import CoBo.Seoul.CoBo.Data.Entity.Speed
 import CoBo.Seoul.CoBo.Data.RegionEnum

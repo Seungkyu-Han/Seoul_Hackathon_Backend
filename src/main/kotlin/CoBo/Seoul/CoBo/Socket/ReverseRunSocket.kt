@@ -1,11 +1,8 @@
 package CoBo.Seoul.CoBo.Socket
 
-import CoBo.Seoul.CoBo.Data.Dto.ReverseRunDto
-import CoBo.Seoul.CoBo.Data.Dto.SpeedDto
+import CoBo.Seoul.CoBo.Data.Dto.Res.ReverseRunDto
 import CoBo.Seoul.CoBo.Data.Entity.ReverseRun
-import CoBo.Seoul.CoBo.Data.Entity.Speed
 import CoBo.Seoul.CoBo.Repository.ReverseRunRepository
-import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.RequiredArgsConstructor
 import org.springframework.context.event.EventListener
@@ -32,11 +29,13 @@ class ReverseRunSocket(
         webSocketSessionList.add(session)
         val reverseRunList =  reverseRunRepository.findAll(PageRequest.of(0, 10, Sort.by(Sort.Order.desc("id"))))
         for(speed in reverseRunList.reversed())
-            session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(ReverseRunDto(
+            session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(
+                ReverseRunDto(
                 created_at = speed.created_at,
                 region = speed.region,
                 direction = speed.direction
-            ))))
+            )
+            )))
     }
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
@@ -47,11 +46,13 @@ class ReverseRunSocket(
     fun sendData(reverseRun: ReverseRun){
         for(webSocketSession in webSocketSessionList){
             try{
-                webSocketSession.sendMessage(TextMessage(objectMapper.writeValueAsBytes(ReverseRunDto(
+                webSocketSession.sendMessage(TextMessage(objectMapper.writeValueAsBytes(
+                    ReverseRunDto(
                     created_at = reverseRun.created_at,
                     region = reverseRun.region,
                     direction = reverseRun.direction
-                ))))
+                )
+                )))
             }catch (e: IOException){
                 throw RuntimeException(e)
             }

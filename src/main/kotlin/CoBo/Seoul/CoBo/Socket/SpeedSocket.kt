@@ -1,6 +1,6 @@
 package CoBo.Seoul.CoBo.Socket
 
-import CoBo.Seoul.CoBo.Data.Dto.SpeedDto
+import CoBo.Seoul.CoBo.Data.Dto.Res.SpeedDto
 import CoBo.Seoul.CoBo.Data.Entity.Speed
 import CoBo.Seoul.CoBo.Repository.SpeedRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -13,7 +13,6 @@ import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
-import org.w3c.dom.Text
 import java.io.IOException
 import java.lang.RuntimeException
 
@@ -30,12 +29,14 @@ class SpeedSocket(
         webSocketSessionList.add(session)
         val speedList = speedRepository.getAllByOverSpeedIsTrue(PageRequest.of(0, 10, Sort.by(Sort.Order.desc("id"))))
         for(speed in speedList.reversed())
-            session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(SpeedDto(
+            session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(
+                SpeedDto(
                 speed = speed.speed,
                 created_at = speed.created_at,
                 region = speed.region,
                 direction = speed.direction
-            ))))
+            )
+            )))
     }
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
@@ -46,12 +47,14 @@ class SpeedSocket(
     fun sendData(speed:Speed){
         for(webSocketSession in webSocketSessionList){
             try{
-                webSocketSession.sendMessage(TextMessage(objectMapper.writeValueAsBytes(SpeedDto(
+                webSocketSession.sendMessage(TextMessage(objectMapper.writeValueAsBytes(
+                    SpeedDto(
                     speed = speed.speed,
                     created_at = speed.created_at,
                     region = speed.region,
                     direction = speed.direction
-                ))))
+                )
+                )))
             }catch (e: IOException){
                 throw RuntimeException(e)
             }

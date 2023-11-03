@@ -15,9 +15,8 @@ data class User(
     @Column(length = 30)
     var email: String,
 
-    @Column(length = 5)
-    var name:String,
+    var alarm:Boolean,
 
-    var alarm:Boolean
+    var refreshToken:String
 ) {
 }
