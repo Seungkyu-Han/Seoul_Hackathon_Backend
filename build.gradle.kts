@@ -53,6 +53,9 @@ dependencies {
 	//KAKAO gson
 	implementation ("com.google.code.gson:gson:2.10.1")
 
+	//SMTP
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
