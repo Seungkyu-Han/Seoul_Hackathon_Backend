@@ -27,7 +27,8 @@ class SpeedSocket(
 
     override fun afterConnectionEstablished(session: WebSocketSession){
         webSocketSessionList.add(session)
-        for(speed in speedRepository.getAllByOverSpeedIsTrue(PageRequest.of(0, 10)))
+        val speedList = speedRepository.getAllByOverSpeedIsTrue(PageRequest.of(0, 10))
+        for(speed in speedList.reversed())
             session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(SpeedDto(
                 speed = speed.speed,
                 created_at = speed.created_at,

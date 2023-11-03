@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import lombok.RequiredArgsConstructor
 import org.springframework.context.event.EventListener
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -29,7 +30,8 @@ class ReverseRunSocket(
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
         webSocketSessionList.add(session)
-        for(speed in reverseRunRepository.findAll(PageRequest.of(0, 10)))
+        val reverseRunList =  reverseRunRepository.findAll(PageRequest.of(0, 10, Sort.by(Sort.Order.desc("id"))))
+        for(speed in reverseRunList.reversed())
             session.sendMessage(TextMessage(objectMapper.writeValueAsBytes(ReverseRunDto(
                 created_at = speed.created_at,
                 region = speed.region,
