@@ -41,6 +41,9 @@ dependencies {
 	//DB
 	implementation("mysql:mysql-connector-java:8.0.33")
 
+	//SOCKET
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
