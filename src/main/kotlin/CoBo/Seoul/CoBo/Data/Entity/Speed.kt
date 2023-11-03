@@ -12,7 +12,7 @@ import javax.persistence.*
 class Speed(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Long,
+    var id:Long?,
 
     var speed:Float,
 

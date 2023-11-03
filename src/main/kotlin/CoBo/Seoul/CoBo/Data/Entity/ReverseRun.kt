@@ -13,7 +13,7 @@ import javax.persistence.*
 class ReverseRun(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Long,
+    var id:Long?,
 
     var created_at:LocalDateTime,
 
