@@ -9,7 +9,7 @@ import javax.persistence.*
 @Table(name="Speed")
 @Data
 @NoArgsConstructor
-class Speed(
+data class Speed(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Long?,

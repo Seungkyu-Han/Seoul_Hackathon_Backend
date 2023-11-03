@@ -1,6 +1,7 @@
 package CoBo.Seoul.CoBo.Data.Entity
 
 import CoBo.Seoul.CoBo.Data.RegionEnum
+import lombok.Builder
 import lombok.Data
 import lombok.NoArgsConstructor
 import java.time.LocalDateTime
@@ -10,7 +11,8 @@ import javax.persistence.*
 @Table(name="reverse_run")
 @Data
 @NoArgsConstructor
-class ReverseRun(
+@Builder
+data class ReverseRun(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Long?,

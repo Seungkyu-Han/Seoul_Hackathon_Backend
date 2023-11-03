@@ -8,7 +8,7 @@ import javax.persistence.*
 @Table(name="user")
 @Data
 @NoArgsConstructor
-class User(
+data class User(
     @Id
     var id:Long,
 
