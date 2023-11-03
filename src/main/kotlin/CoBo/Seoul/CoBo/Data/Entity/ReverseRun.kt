@@ -23,7 +23,8 @@ data class ReverseRun(
 
     var direction:Int,
 
-    var day_of_the_week_tag:Short,
+    @Column(length = 3)
+    var day_of_the_week_tag:String,
 
     var time_tag: Short
 ) {
