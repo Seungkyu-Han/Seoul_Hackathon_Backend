@@ -19,7 +19,7 @@ class SendMail(
     val speedService: SpeedService
     ){
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     fun sendMail(){
         val userList = userRepository.findAllByAlarmIsTrue()
 
